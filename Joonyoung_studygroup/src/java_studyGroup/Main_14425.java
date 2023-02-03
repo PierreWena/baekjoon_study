@@ -64,7 +64,7 @@ public class Main_14425 {
 			
 			
 		} // end of for-----------------------------------
-		// 참고 : https://velog.io/@sukong/JS-Map%EA%B3%BC-Set
+		// 참고 : https://velog.io/@sukong/
 		
 		
 		
