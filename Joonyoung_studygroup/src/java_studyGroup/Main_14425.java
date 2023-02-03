@@ -64,7 +64,7 @@ public class Main_14425 {
 			
 			
 		} // end of for-----------------------------------
-		// 출처 : https://velog.io/@sukong/%EB%B0%B1%EC%A4%80-14425-%EB%AC%B8%EC%9E%90%EC%97%B4-%EC%A7%91%ED%95%A9
+		// 출처 : https://velog.io/@sukong
 		
 		
 		
