@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.*;
 
 
-public class NumberCard10816_2_3 {
+public class NumberCard10815 {
 
 	public static void main(String[] args) {
 
@@ -72,7 +72,7 @@ public class NumberCard10816_2_3 {
 						break;									// 탈출 
 					}
 				}
-				//sb.append(binarySearch(aArr, num));				// binarySearch 은 이분타색을 해주는것이다.
+				//sb.append(binarySearch(aArr, num));				// binarySearch 은 이분탐색을 해주는것이다.
 			}														// binarySearch 처음 aArr 와 num 을 비교한다.
 			
 			bw.write(sb.toString());						// 출력하기 위해 
@@ -132,6 +132,52 @@ public class NumberCard10816_2_3 {
 
 		sc.close();
 		
+	}
+
+}
+*/
+
+/*
+package my.own.quiz.baekjoon;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class SJH_10815 {
+
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		Map<Integer, Integer> N_map = new HashMap<>();		// HashMap 생성
+		
+		StringBuilder sb = new StringBuilder();
+		
+		int N = sc.nextInt();
+		
+		for(int i=0; i<N; i++) {
+			N_map.put(sc.nextInt(), 1);						// 숫자카드 저장	
+		}
+		
+		int M = sc.nextInt();
+		
+		for(int i=0; i<M; i++) {
+			
+			if( N_map.get(sc.nextInt()) == null )			// 찾는 값이 없으면
+				sb.append(0).append(" ");					// 0을  출력
+			else
+				sb.append(1).append(" ");					// 찾는 값이 있으면 1을 출력
+		}
+		
+		
+		
+		System.out.println(sb);								// 결과 출력
+		
+		
+		
+		sc.close();
+
 	}
 
 }

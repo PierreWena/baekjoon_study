@@ -10,7 +10,7 @@ import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-public class Pokemon1621_2_3 {
+public class Pokemon1620 {
 
 	public static void main(String[] args) {
 		

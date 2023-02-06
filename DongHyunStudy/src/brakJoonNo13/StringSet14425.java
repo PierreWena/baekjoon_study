@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-public class StringSet14426_2_3 {
+public class StringSet14425 {
 
 	public static void main(String[] args) {
 		
