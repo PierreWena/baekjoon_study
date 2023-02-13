@@ -1,0 +1,16 @@
+조건에 맞는 도서 리스트 출력하기
+
+프로그래머스 문제 : https://school.programmers.co.kr/learn/courses/30/lessons/144853?language=oracle
+
+select BOOK_ID AS 도서ID
+     , to_char(PUBLISHED_DATE,'yyyy-mm-dd') AS 출판일
+from BOOK
+where CATEGORY = '인문' AND to_char(PUBLISHED_DATE,'yyyy') = '2021'
+order by PUBLISHED_DATE
+
+
+
+//
+
+
+처음에 to_char 말고 PUBLISHER_DATE LIKE (2021%) 라고 했다가 틀림

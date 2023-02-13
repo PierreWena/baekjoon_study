@@ -1,0 +1,11 @@
+NULL 처리하기
+
+프로그래머스 문제 출처 : https://school.programmers.co.kr/learn/courses/30/lessons/59410
+
+
+
+SELECT ANIMAL_TYPE
+,NVL(NAME,'No name') AS NAME
+, SEX_UPON_INTAKE
+from ANIMAL_INS
+order by ANIMAL_ID 
