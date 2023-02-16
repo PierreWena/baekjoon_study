@@ -1,0 +1,14 @@
+select name, datetime 
+from(
+select name, datetime
+from( select ANIMAL_ID
+    from ANIMAL_INS
+    minus
+    select ANIMAL_ID
+    from ANIMAL_OUTS 
+)
+V join ANIMAL_INS A
+on V.ANIMAL_ID = A.ANIMAL_ID
+order by datetime
+)
+where rownum <= 3;
