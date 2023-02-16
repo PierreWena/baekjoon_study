@@ -65,6 +65,10 @@ FROM (
 
 
 
-
+---  > RANK() OVER (ORDER BY to_date(DATETIME) )  AS 순위                          
+---  > RANK() OVER (ORDER BY to_char(DATETIME, 'yyyy-mm-dd') )  AS 순위 
+---  > 는 정답으로 되면서 값이 같고
+---  > RANK() OVER (ORDER BY to_date(DATETIME, 'yyyy-mm-dd') )  AS 순위
+---  > RANK() OVER (ORDER BY to_char(DATETIME) )  AS 순위 는 둘이 값이 같긴하지만 완전히 다른 결과가 나오게 되는이유. 
 
 
