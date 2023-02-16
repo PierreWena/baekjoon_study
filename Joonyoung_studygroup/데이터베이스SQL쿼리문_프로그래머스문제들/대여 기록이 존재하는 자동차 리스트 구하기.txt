@@ -1,4 +1,5 @@
--- 코드를 입력하세요
+프로그레머스 문제 출처 : https://school.programmers.co.kr/learn/courses/30/lessons/157341
+
 SELECT DISTINCT B.CAR_ID
 FROM CAR_RENTAL_COMPANY_CAR A 
 JOIN CAR_RENTAL_COMPANY_RENTAL_HISTORY B
