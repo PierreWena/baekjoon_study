@@ -1,0 +1,64 @@
+
+
+출처: 
+
+https://jaimemin.tistory.com/2245
+
+프로그래머스 문제 출처: https://school.programmers.co.kr/learn/courses/30/lessons/157340
+
+
+
+
+
+
+select CAR_ID,
+       case when CAR_ID IN (
+       
+        select CAR_ID
+           from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+        where to_date('2022-10-16','YYYY-mm-dd') BETWEEN  to_date(START_DATE) AND to_date(END_DATE) 
+           
+       
+       ) then '대여중' else '대여 가능' end AS AVAILABILITY
+       
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+GROUP BY CAR_ID
+ORDER BY CAR_ID DESC;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- 틀린풀이
+
+-- 코드를 입력하세요
+SELECT CAR_ID, V.AVAILABILITY AS AVAILABILITY
+
+FROM (
+    select CAR_ID 
+    ,case  when ascii(to_char(START_DATE, 'MM')) BETWEEN SOH AND LF and
+           when ascii(to_char(START_DATE, 'DD')) BETWEEN SOH AND DLE and
+           when ascii(to_char(END_DATE, 'MM')) BETWEEN LF AND FF and
+           when ascii(to_char(END_DATE, 'DD')) BETWEEN DLE AND US then '대여중'
+	else '대여가능' AS  AVAILABILITY   
+        
+    
+    from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+    
+    
+) V
+group by V.AVAILABILITY;
