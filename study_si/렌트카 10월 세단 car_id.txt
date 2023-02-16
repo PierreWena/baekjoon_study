@@ -1,0 +1,17 @@
+with
+A as 
+(
+    SELECT *
+    from CAR_RENTAL_COMPANY_CAR   
+ ),
+ B as
+ (
+    select *
+    from CAR_RENTAL_COMPANY_RENTAL_HISTORY 
+ )
+ select A.car_id
+ from A join B
+ on A.car_id = B.car_id
+ where to_char(B.start_date, 'MM') = '10' and A.car_type = '세단'  
+ group by A.car_id
+ order by A.car_id desc;
