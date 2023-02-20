@@ -1,0 +1,116 @@
+문제출처 : https://school.programmers.co.kr/learn/courses/30/lessons/151139
+
+정답출처 : https://velog.io/@ssook1222/%EB%8C%80%EC%97%AC-%ED%9A%9F%EC%88%98%EA%B0%80-%EB%A7%8E%EC%9D%80-%EC%9E%90%EB%8F%99%EC%B0%A8%EB%93%A4%EC%9D%98-%EC%9B%94%EB%B3%84-%EB%8C%80%EC%97%AC-%ED%9A%9F%EC%88%98-%EA%B5%AC%ED%95%98%EA%B8%B0-%EC%99%B8-2%EA%B1%B4
+
+
+WITH FILTER AS ( -- 8~10월의 최소 1개 이상인 자동차 아이디만 가져오는 것
+    SELECT CAR_ID
+            , COUNT(*) AS FILTER
+    FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+
+    WHERE EXTRACT(MONTH FROM START_DATE) IN(8,9,10)
+
+    GROUP BY CAR_ID
+    ORDER BY CAR_ID DESC
+)
+
+SELECT EXTRACT(MONTH FROM START_DATE) AS MONTH
+       , C.CAR_ID
+       , COUNT(*) AS RECORDS
+
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY C
+ INNER JOIN FILTER F
+
+ON  C.CAR_ID = F.CAR_ID 
+
+WHERE   F.FILTER>=5 
+        AND EXTRACT(MONTH FROM START_DATE) IN (8,9,10)
+GROUP BY EXTRACT(MONTH FROM START_DATE)
+          , C.CAR_ID
+ORDER BY MONTH ASC
+          , CAR_ID DESC
+
+
+
+------------------------------------------
+
+틀린 내 풀이
+
+
+-- 코드를 입력하세요
+
+
+SELECT V.MONTH AS MONTH, C.CAR_ID AS CAR_ID , count(C.CAR_ID) AS RECORDS
+
+from  
+(
+    select CAR_ID
+          , EXTRACT(MONTH FROM START_DATE) AS MONTH
+    from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+   
+
+)V JOIN
+
+(SELECT CAR_ID
+
+ from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+ 
+WHERE EXTRACT(MONTH FROM START_DATE) IN(8,9,10)
+
+ 
+ group by CAR_ID HAVING count(CAR_ID) >=5
+
+
+) C
+
+ON V.CAR_ID = C.CAR_ID
+
+group by V.MONTH
+           , C.CAR_ID 
+
+ORDER BY V.MONTH ASC 
+           , C.CAR_ID desc
+
+
+
+
+-----------------------------------------------------------
+
+고친것
+
+
+
+-- 코드를 입력하세요
+
+
+SELECT V.MONTH AS MONTH, C.CAR_ID AS CAR_ID , count(C.CAR_ID) AS RECORDS
+
+from  
+(
+    select CAR_ID
+          , EXTRACT(MONTH FROM START_DATE) AS MONTH
+    from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+   
+
+)V JOIN
+
+(SELECT CAR_ID
+
+ from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+ 
+WHERE EXTRACT(MONTH FROM START_DATE) IN(8,9,10)
+
+ 
+ group by CAR_ID HAVING count(CAR_ID) >=5
+
+
+) C
+
+ON V.CAR_ID = C.CAR_ID
+
+where V.MONTH in (8,9,10)
+
+group by V.MONTH
+           , C.CAR_ID 
+ORDER BY V.MONTH ASC
+           , C.CAR_ID desc

@@ -1,0 +1,19 @@
+문제출처 : https://school.programmers.co.kr/learn/courses/30/lessons/59411
+
+
+
+SELECT ANIMAL_ID , NAME
+
+
+from ( SELECT O.ANIMAL_ID
+		, O.NAME 
+
+       from ANIMAL_INS I
+       JOIN ANIMAL_OUTS O
+       
+       ON I.ANIMAL_ID = O.ANIMAL_ID
+       ORDER BY O.DATETIME - I.DATETIME DESC
+
+)
+
+where rownum <3
