@@ -1,0 +1,10 @@
+SELECT category, sum(sales)
+FROM book a, (SELECT book_id, sum(sales) as sales
+              FROM book_sales
+              WHERE to_char(sales_date, 'yyyy-mm-dd') between '2022-01-01'
+              and '2022-01-31'
+              GROUP BY book_id) b -- b가 book_id로 묶었을때 1월에 판매된 
+                                  -- 총판매개수
+WHERE a.book_id = b.book_id --매핑시켜주고
+GROUP BY category
+ORDER BY category asc;
