@@ -1,0 +1,6 @@
+select B.animal_id, B.name
+FROM ANIMAL_INS A 
+RIGHT JOIN ANIMAL_OUTS B    -- right 조인으로 OUTS에 있는 걸 다보여주고
+ON A.animal_id = B.animal_id
+where A.animal_id is null -- outs에는 있지만 ins에 없는부분이 null 로 나온다
+order by A.animal_id;      -- 즉,입양간기록은 있지만 들어온기록은 없는애들

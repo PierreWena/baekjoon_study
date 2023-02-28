@@ -1,0 +1,8 @@
+select food_type, rest_id,rest_name, favorites
+from(
+select food_type, rest_id,rest_name, favorites,
+    rank() over(partition by food_type order by favorites desc) as favoriterk
+from REST_INFO
+)
+where favoriterk = 1        -- 즐겨찾기가 1등은 것들만 보여라
+order by food_type desc
