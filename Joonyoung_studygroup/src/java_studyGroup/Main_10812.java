@@ -15,10 +15,11 @@ public class Main_10812 {
 		
 		sc.nextLine();
 		
-		String str = "";
+	
 		
 		int []arr = new int[N];
 		
+		int []brr = new int[N];
 		
 		
 		for(int i=0; i<N; i++) {
@@ -27,10 +28,17 @@ public class Main_10812 {
 			
 		}
 		
+		for(int i=0; i<N; i++) {
+			
+			brr[i] = i+1;
+			
+		}
 		
 		
 		
-		for(int A=0; A<M; A++) {
+		
+		
+		for(int r=0; r<M; r++) {
 			
 			int i = sc.nextInt();
 			
@@ -38,25 +46,33 @@ public class Main_10812 {
 			
 			int k = sc.nextInt();
 			
-			sc.nextLine();
-			
-             for(int num=k; num<j+1; num++) {
+		
+			for(int s=0; s<j-k+1; s++) {
 				
-				str += arr[num]+ " ";
+				brr[ i - 1 + s] = arr[ k - 1 + s];
+				
 				
 			}
 			
-			
-			
-			for(int num=i; num<k; num++) {
-				
-				
-				str += arr[num] + " ";
+            for(int A=0; A<k-i; A++) {
+            	
+            	brr[i + j - k + A]  = arr[ i - 1 + A];
+            	
+            }
+            
+            for(int num=0; num<N; num++) {
+				arr[num]=brr[num];
 			}
-			
 			
 			
 		}// end of for------------------------------------------
+		
+		
+		for(int b=0; b<N; b++) {
+			
+			System.out.print(brr[b]+" ");
+			
+		}
 		
 		
 		
