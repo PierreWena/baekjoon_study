@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>우리말 퀴즈</title>
+
+<style type="text/css">
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    background-color: LightBlue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    /* overflow: hidden; */
+    margin: 0;
+}
+
+div#container {
+    background-color: #fff;
+    border-radius: 10px;
+    width: 800px;
+    margin: 0px auto;
+    padding: 30px;
+    /* overflow: hidden; */
+}
+
+div.header{
+    padding: 64px;
+}
+
+
+
+h2{
+    /* border: solid 1px red; */
+    padding: 16px;
+    text-align: center;
+    margin: 0;
+}
+
+ul {
+    /* border: solid 1px gray; */
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    /* border: solid 1px gold; */
+    font-size: 20px;
+    margin: 16px 0;
+    
+}
+
+ul li label {
+    
+    cursor: pointer;
+}
+
+button {
+    background-color: darkcyan;
+    color: #fff;
+    border: none;
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 16px;
+    border-radius: 15px;
+}
+button:hover {
+    background-color: darkgreen;
+}
+
+.main p {
+	text-align: center;
+}
+
+.main .limit {
+	font-weight: bold;
+	font-size: 15pt;
+}
+
+.quiz .timer {
+	margin-top: 15px;
+	float: right;
+}
+
+.quiz .warn {
+	clear: both;
+	margin-top: 10px;
+	text-align: center;
+}
+
+.quiz.hide {
+    display: none;
+}
+
+.main.hide {
+    display: none;
+}
+
+.result.hide{
+    display: none;
+}
+
+.quiz .question-number {
+    font-size: 18px;
+    color: #009688;
+    font-weight: 600;
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 10px;
+    line-height: 25px;
+}
+
+.quiz .question-text {
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 400;
+}
+
+
+
+.result{
+    text-align: center;
+}
+
+.result table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+}
+
+.result table td{
+    border:1px solid #ccc;
+    padding: 8px 15px;
+    color: #000;
+    width: 50%;
+    text-align: left;
+    font-size: 18px;
+}
+
+
+
+
+
+</style>
+
+
+
+
+</head>
+<body>
+
+    <div id="container" class="main">
+        <div class="header">
+            <h2>우리말 퀴즈</h2>
+            <p>10개의 문제중 랜덤으로 골라낸 5개의 문제를 테스트합니다.</p>
+            <p class="limit">제한시간: 1분</p>
+            <button type="button" onclick="startQuiz()">테스트 시작</button>
+
+        </div>
+    </div>
+
+
+    <div id="container" class="quiz hide">
+        <div class="header">
+            
+            <div class="question-number">
+                1 of 5
+            </div>
+            
+            <div class="question-text">
+                <h2 id="question"></h2>
+            </div>
+            <div class="option-container">
+                <!-- <ul>
+                    <li>
+                    	<input><label></label>
+                    </li>
+                </ul> -->
+            </div>
+            <div class="next-question-btn">
+                <button id="submit" onclick="next()">다음</button>
+            </div>
+            <div class="timer">
+            </div>
+            <div class="warn">제한시간이 경과하면 자동제출됩니다</div>
+        </div>
+
+        
+    </div>
+
+    
+
+    <div id="container" class="result hide">
+        <div class="header">
+            <h2>채점 결과</h2>
+            <table>
+                <tr>
+                    <td>총 문항 수</td>
+                    <td><span class="total-question"></span></td>
+                </tr>
+                <tr>
+                    <td>제출 문항 수</td>
+                    <td><span class="total-attempt"></span></td>
+                </tr>
+                <tr>
+                    <td>정답</td>
+                    <td><span class="total-correct"></span></td>
+                </tr>
+                <tr>
+                    <td>오답</td>
+                    <td><span class="total-wrong"></span></td>
+                </tr>
+                <tr>
+                    <td>정답률</td>
+                    <td><span class="percentage"></span></td>
+                </tr>
+                <tr>
+                    <td>당신의 우리말 등급은</td>
+                    <td><span class="grade"></span></td>
+                </tr>
+
+            </table>
+
+            <button type="button" onclick="location.reload()">다시하기</button>
+        </div>
+    </div>
+    
+	
+	
+	
+	<script type="text/javascript">
+
+	const quizData = [
+	    {
+	        question: "\"넓다\"의 반대말은?",
+	        answer : {a: "작다",
+	        b: "크다",
+	        c: "새롭다",
+	        d: "좁다"},
+	        correct: "d",
+	    },
+	    {
+	        question: "_____은 사계절 중 가장 추운 계절이다.",
+	        answer : {a: "봄",
+	        b: "여름",
+	        c: "가을",
+	        d: "겨울"},
+	        correct: "d",
+	    },
+	    {
+	        question: "다음 중 곤충이 아닌 것은?",
+	        answer : {a: "개미",
+	        b: "비둘기",
+	        c: "벌",
+	        d: "나비"},
+	        correct: "b",
+	    },
+	    {
+	        question: "집을 세는 단위는?",
+	        answer : {a: "뭇",
+	        b: "벌",
+	        c: "채",
+	        d: "필"},
+	        correct: "c",
+	    },
+	    {
+	        question: "다음 중 인물을 묘사할 수 있는 말이 아닌 것은?",
+	        answer : {a: "귀엽다",
+	        b: "두껍다",
+	        c: "날씬하다",
+	        d: "착하다"},
+	        correct: "b",
+	    },
+	    {
+	        question: "이 책의 내용은 별로 ______.",
+	        answer : {a: "좋다",
+	        b: "안좋다",
+	        c: "않좋다",
+	        d: "너무 좋다"},
+	        correct: "b",
+	    },
+	    {
+	        question: "다음 중 순우리말은?",
+	        answer : {a: "바람",
+	        b: "노트북",
+	        c: "커피",
+	        d: "초콜릿"},
+	        correct: "a",
+	    },
+	    {
+	        question: "다음 중 맞는 표현은?",
+	        answer : {a: "털이 복실복실한 강아지",
+	        b: "털이 복슬복슬한 강아지"},
+	        correct: "b",
+	    },
+	    {
+	        question: "다음중 맞춤법에 맞는것은?",
+	        answer : {a: "웬만해선 그를 막을 수 없다.",
+	        b: "왠만해선 그를 막을 수 없다.",
+	        },
+	        correct: "a",
+	    },
+	    {
+	        question: "다음중 맞춤법에 맞는것은?",
+	        answer : {a: "구렛나루",
+	        b: "구렛나룻",
+	        c: "구레나룻",
+	        },
+	        correct: "c",
+	    },
+	];
+
+
+
+	const questionNumber = document.querySelector(".question-number"); // 퀴즈페이지속의 문제번호
+	const questionText = document.querySelector('#question'); //퀴즈페이지속의 문제
+	const optioonContainer = document.querySelector('.option-container'); // 퀴즈페이지속의 선택지
+	const mainPage = document.querySelector("div.main"); //메인페이지
+	const quizPage = document.querySelector("div.quiz"); // 퀴즈페이지
+	const resultPage = document.querySelector("div.result"); //결과페이지
+
+
+	let questionCounter = 0; //현재 풀고있는 문제수  
+	let currentQuiz; // 지금 풀고있는 퀴즈 객체
+	let availableQuiz = []; //랜덤하게 하나씩 빠져나갈 퀴즈 어레이
+	let time; //시간
+	let setTimer; // 인터벌용 변수
+	
+	let score = 0; //맞춘갯수
+	let attempt = 0; // 제출한 문제수
+
+
+	// 퀴즈 스타트
+	function startQuiz() {
+	    //메인페이지 닫기
+	    mainPage.classList.add("hide");
+	    //퀴즈 페이지 열기
+	    quizPage.classList.remove("hide");
+	    
+	    //타이머실행
+	    time = 60;
+	    timer();
+	    setTimer = setInterval(timer, 1000);
+
+	    // 퀴즈들을 어레이안에 세팅
+	    setAvailableQuestions();
+	    // 퀴즈 얻어오기 펑션 실행
+	    getNewQuiz();
+	}
+
+	// quizData를  availableQuiz에 넣어줌
+	function setAvailableQuestions() {
+	    const totalQuiz = quizData.length;
+	    for(let i=0; i <totalQuiz; i++) {
+	        availableQuiz.push(quizData[i]);
+	    }
+	}
+
+	function getNewQuiz(){
+	    
+	    questionNumber.innerHTML = `${questionCounter + 1} of ${5}`;
+
+	    //랜덤한 퀴즈 받아오기
+	    const quizIndex = availableQuiz[Math.floor(Math.random() * availableQuiz.length)];
+	    currentQuiz = quizIndex;
+	    //문제 innerHTML
+	    questionText.innerHTML = currentQuiz.question;
+
+	    //사용가능 문제 잘라보내기
+	    const indexOfCurrent = availableQuiz.indexOf(quizIndex);
+	    availableQuiz.splice(indexOfCurrent, 1);
+	    
+	    //문제 보기 가져오기
+	    let html = `<ul>`
+
+	    for (var key in currentQuiz.answer) {
+	        html += `<li>
+	                    <input type="radio" name="answer" id="${key}" class="answer">
+	                    <label for="${key}">${currentQuiz.answer[key]}</label>
+	                </li>`;
+	    }
+	    html += `</ul>`;
+	    // console.log(html);
+	    optioonContainer.innerHTML = html;
+
+
+	    questionCounter++;
+
+	}
+
+	function next(){
+	    const answer = getSelected();
+	    if(answer) {
+	        getResult(answer);
+	        attempt++;
+	        if(questionCounter === 5) {
+	            quizOver();
+	        } else {
+	            getNewQuiz();
+	            
+	        }
+	        
+	    } else {
+	        if(confirm("정답을 선택하지 않으셨습니다.\n그대로 진행하시겠습니까?")) {
+	            if(questionCounter === 5) {
+	                quizOver();
+	            } else {
+	                getNewQuiz();
+	            }
+	        }
+	    }
+	}
+
+	function getResult(answer) {
+	    console.log(answer);
+	    console.log(currentQuiz.correct);
+	    
+	    if (answer === currentQuiz.correct) {
+	        score++;
+	    }
+	}
+
+	function quizOver() {
+	    // 퀴즈페이지 닫고 결과페이지 열기
+	    quizPage.classList.add("hide");
+	    resultPage.classList.remove("hide");
+	    quizResult();
+	    clearInterval(setTimer);
+	}
+
+	//최종적으로 결과페이지 잡아주기
+	function quizResult() {
+	    resultPage.querySelector(".total-question").innerHTML = 5;
+	    resultPage.querySelector(".total-attempt").innerHTML = attempt;
+	    resultPage.querySelector(".total-correct").innerHTML = score;
+	    resultPage.querySelector(".total-wrong").innerHTML = 5 - score;
+	    const percentage = (score / 5) * 100;
+	    resultPage.querySelector(".percentage").innerHTML = percentage.toFixed(2) + "%";
+	    
+	    let grade;
+	    switch (score) {
+		case 5:
+			grade = "A";
+			break;
+		case 4:
+			grade = "B";
+			break;
+		case 3:
+			grade = "C";
+			break;
+		case 2:
+			grade = "D";
+			break;
+		case 1:
+			grade = "E";
+			break;
+		case 0:
+			grade = "F";
+			break;
+
+		default:
+			break;
+		}
+	    
+	    
+	    resultPage.querySelector(".grade").innerHTML = grade;
+	}
+
+
+	//현재 화면에서 선택한 정답 가져오기
+	function getSelected() {
+	    let answer;
+	    const choiceList = document.querySelectorAll('.answer');
+
+	    choiceList.forEach(choice => {
+	        if(choice.checked) {
+	            answer = choice.id;
+	        }
+	    })
+	    
+	    return answer;
+	}
+	
+	// 타이머
+	
+	const timerDiv = document.querySelector("div.timer"); //타이머를 보여줄 장소
+	
+	
+	
+	function timer() {
+		
+		if(time < 0) {
+			
+			alert("제한시간이 경과하여 자동으로 제출됩니다.");
+			clearInterval(setTimer);
+			quizOver();
+		}
+		
+		else {
+			let minute = "";
+			let second = "";
+			
+			minute = Math.floor(time / 60);
+			if(minute < 10) {
+				minute = "0" + minute;
+			}
+			
+			second = time % 60;
+			if(second < 10) {
+				second = "0" + second;
+			}
+			
+			
+			timerDiv.innerHTML = `${minute}:${second}`;
+			
+			
+			time--;
+			
+		}
+		
+		
+	};
+	
+	
+	
+	
+	</script>
+    
+
+
+</body>
+</html>
