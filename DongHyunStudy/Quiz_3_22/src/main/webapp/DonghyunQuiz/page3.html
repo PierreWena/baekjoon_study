@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>문제 페이지 1번 </title>
+
+<link rel="stylesheet" type="text/css" href="css/stylePage.css" />
+
+</head>
+<body >
+
+	<header>
+		<h2> 5,6번째 문제 입니다. (총 6문제)</h2>  <!-- 제목 -->
+		
+		<div id="timeMain">
+		
+			<p>남은시간 : </p>
+			<div id="timer"></div>
+		</div>
+		
+		
+	</header>
+	
+	<section>
+		<div id="quiz_display"></div>
+		<input type="button" id="btnfin" value="답 확인하기" onclick='endbutton()'/>
+		<input type="button" id="btn_give_up" value="포기하기" onclick='give_up_button()'/>
+	
+	</section>
+	
+	<span id="warning">[주의] "답 확인하기 와 포기하기" 버튼을 클릭하는 순간 취소가 불가합니다.!! </span>
+	<div id="score"></div>	
+	<input type="button" id="btn_next" value="결과 창으로" onclick='next_button()'/>
+	
+	<footer>
+		
+			<p>made by MDH / 2023.03.19</p>
+		
+	</footer>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<script type="text/javascript">
+	
+	btn_next.disabled = true;   // "다음 페이지" 버튼 비활성화 
+	
+	const divTimer = document.querySelector("div#timer");   // 니티닐 징소 설정 하기
+	
+	let time = 60;											// 시간은 각문제당 30초 총 1분
+	
+	const timer = function() {								// 함수선언 
+		
+		if(time < 0)										// 제한 시간이 끝나면
+		{
+			alert("이 페이지 문제풀이 종료 체점을 확인하시고 다음페이지로 넘어가세요");		// 알람 표시
+			clearInterval(setTimer);								// 밑에 const setTimer 을 중지시킨다. 즉 1초마다 타이머 함수 호출 중지
+			
+			btnfin.disabled = true;   // "제출하기" 버튼 비활성화 
+			/* btnSubmit.disabled = false;   // "제출하기" 버튼 활성화*/ 
+			check();		// 채점하는 함수 호출
+		}
+		else												// 제한시간이 안끝났을 경우 
+		{
+			let minute;										// 분 설정
+			let second;										// 초 설정
+			
+			minute = Math.floor(time / 60);					// 분을 소수부 버리고 정수부만 가져오게 한다.
+			
+			second = time % 60;								// 초는 시간에서 60을 나눈 나머지를 나타내도록 한다.
+			
+			if(second < 10) {								// 초가 10초 밑이면 0을 앞에 추가해준다.
+				second = "0" + second;
+			}
+			
+			divTimer.innerHTML = `${minute}:${second}`;		// 나타낼 장소에 이런 형식으로 나타내게 한다.
+			time--;											// 매번 초를 줄인다.
+		}
+	};
+	
+	timer(); // 타이머 함수 호출 
+	
+	const setTimer = setInterval(timer, 1000);  // 1초 마다 주기적으로 타이머 함수가 호출하도록 지정
+	
+	//////////////////////////////////////////////////////////////////
+	
+	// 문제를 배열로 나타낸것을 표시하기
+	const arr_quizData = [{question : "문제1. 체코의 수도는?", 
+						   answers : {1:"마닐라", 2:"베를린", 3:"앙카라", 4:"프라하"}, 	// 1,2,3,4 이거는 밑에 key로 들어감
+						   correct : 4},
+						  {question : "문제2. 피지의 수도는?", 
+						   answers : {1:"방콕", 2:"웰링턴", 3:"수바", 4:"아크라"}, 
+					       correct : 3}];
+						   
+    const div_quiz = document.querySelector("div#quiz_display");   // 퀴즈문항을 보여줄 장소 
+	
+	// 퀴즈문항을 html 로 만들기 
+	let html = ``;
+	
+	arr_quizData.forEach((item, index) => {
+		
+		html += `<div id="div${index}">`;
+		
+		html += `<p id="question${index}">${item.question}</p>`;
+		
+		html += `<ol>`;
+		
+		// !!! 중요 !!!
+		for(let key in item.answers)  { // 어떤 객체의 속성(키)들을 모두 불러올때는 for문에서 of 가 아니라 in을 사용한다.
+			html += `<li> <label for="${index}${key}}">${item.answers[key]}</label> <input type="radio" name="question${index}" id="${index}${key}}" value="${key}" /></li>`;   // 어떤것은 4개 어떤것은 5개 가 나올수 있게 함 
+																			  // .표기법이 아닌 대괄호 표기법을 해야 한다.
+																			  // radio는 선택자를 나오게 한다. 그리고 name을 써줘야 한가지만 선택 가능하다.
+																			  // index는 question마다 나눠서 주므로 각 문항마다 1개 선택 가능하게 해준다.
+																			  // label 태그와 id를 통해 글자를 클릭하더라도 선택지에 나오게 한다.
+																			  // key는 속성이다. 1,2,3,4,5 번과  같음
+			/*
+			객체의 속성에 해당하는 값을 읽어오는 방법에 있어서 속성명이 변수로 되어져 있을 경우에는 .표기법이 아닌 대괄호 표기법을 사용해야 한다. 
+           	즉, 속성명이 변수로 되어져 있을 경우 속성명에 해당하는 값을 읽어오기 위해서는 객체.속성명 이 아닌 객체[속성명] 으로 해야만 한다. 
+			
+           	${item.answers[key]} 는 "부산" 과 같은 것을 말하는 것이다.
+           	
+           	radio 에서는 반드시 name 이 동일해야 한다.
+           	
+           	radio 의 value값은 item.answers 의 속성명인 1,2,3,4,5 중의 하나가 된다.
+           	*/
+           	
+           	
+		}//end of for
+		////// 정답을 비교하고 ox를 나타내어 보자
+		
+		html += `<div id="ox${index}"></div>`;  // 퀴즈 문항에 대해 정답인지 틀린것인지를 보여줄 장소 
+		
+		html += `<div id="answer${index}"></div>`;  // 퀴즈 문항에 대해 해설
+		
+		html += `<div id="city${index}"></div>`;  // 문항의 수도 이미지 보이기
+		
+		html += `</ol>`;
+		
+		html += `</div>`;
+		
+		
+		
+		html += `<div id = "centerline${index}">`;
+		
+		html += `</div>`;
+
+		
+		
+	});
+	
+	div_quiz.innerHTML = html;  // 출력해줘야한다.
+	
+	
+	
+	////////////////////////////////////////////////////////////////////////////////
+	// 답 확인하기 버튼 클릭 
+	function endbutton(){
+		
+		alert("답을 확인합니다.");
+		// 타이머 삭제하기 
+		clearInterval(setTimer); // 타이머 삭제하기 
+								 // setTimer 는 중단해야할 setInterval 함수를 가리키는 것이다.
+		
+		divTimer.innerHTML = "00:00";    // 시간 초기화 
+								 
+		btnfin.disabled = true;   // "제출하기" 버튼 비활성화 
+		/* btnSubmit.disabled = false;   // "제출하기" 버튼 활성화*/ 
+		check();		// 채점하는 함수 호출
+		
+	}
+	
+	// 포기하기 버튼
+	function give_up_button(){
+		
+		alert("저런저런 지식을 쌓고 다시 오너라");
+		location.href = "./quizMainpage.html";			
+	}
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	
+	let correctCntfinal = 0;  // 변수 선언 correntCnt를 이동시키기 위해 임시 저장공간
+	
+	//function Expreesion
+		const check = function(){
+		
+			//let correctCnt = 0;// 정답개수 누적용 
+			let correctCnt = location.href.split('?')[1];  // page2에서 값을 받아온다.
+			console.log(correctCnt); // data
+			
+			arr_quizData.forEach( function(item, index){
+				 //console.log(`${index+1}번 문제 정답은 ${item.correct}`);
+				 
+				 
+				 // 퀴즈문항 뒤에 정답번호 공개하기
+				 document.querySelector(`p#question${index}`).append(`  ${item.correct} `);
+				 // 노드.append("문자열") 은 노드 바로 뒤에 "문자열" 을 덧붙여 주는 것이다.
+			
+				 
+				// 내가 몇개나 맞추었는지 알아보기
+				
+				const radio_length = document.getElementsByName(`question${index}`).length;
+				 
+				console.log(`${index+1}번 문제 라디오 개수는 ${radio_length}개`)
+				
+				
+				let isCheckAnswer = false;   // 라디오의 선택유무 검사용
+				for(var i=0; i<`${radio_length}`; i++) {		// 러다오 개수만큼 반목
+					 if(document.getElementsByName(`question${index}`)[i].checked) {   // 해당 문제의 라디오 한개한개를 말한다.
+																					// boolean 값이 나오고 체크가 되어있으면 true, 아니면 false
+					 	isCheckAnswer = true;
+					 	break;
+					 }
+				}
+				console.log(`${index+1}번 문제 라디오를 선택하셨나요? ${isCheckAnswer}`);
+				
+				
+				let userAnswer;
+				if(isCheckAnswer) {  // 답을 선택한 경우
+					// !!!!!!!!!!!!!! 중요 부분 외우자 !!!!!!!!!!!!!! //
+					userAnswer = document.querySelector(`input[name="question${index}"]:checked`).value;   // css 선별자는 input
+																	   // :checked 는 라디오(또는 체크박스) 중에 선택되어진 것을 말한다.
+																	   // checkbox이면 querySelectorALL 을 사용 radio 이면 querySelector을 사용
+							
+				}
+				else {			// 답을 선택하지 않은 경우 
+					userAnswer = "선택안함";
+				}
+				
+				console.log("사용자가 선택한 답번호 : " + userAnswer);
+				console.log("");
+				
+				if(userAnswer == item.correct) {   // 정답과 사용자 답이 같으면 (정답)
+					correctCnt++;
+					document.querySelector(`div#ox${index}`).innerHTML = "<span id='ox' style='color:blue'>정답결과 : 정답</span>";
+				}
+				else {								// 정답과 사용자 답이 아니면 (틀림)
+					document.querySelector(`div#ox${index}`).innerHTML = "<span id='ox' style='color:red'>정답결과 : 틀림</span>";
+				}
+				
+				// 정답해설 보이기
+				document.querySelector(`div#answer${0}`).innerHTML = "<span id='answer' ><= 해설 => <br>체코의 수도는 프라하이다.<br>마닐라는 필리핀<br>베를린은 독일<br>앙카라는 터키의 수도이다.</span>";
+				document.querySelector(`div#answer${1}`).innerHTML = "<span id='answer' ><= 해설 => <br>피지의 수도는 수바이다.<br>방콕은 태국<br>웰링턴은 뉴질랜드<br>아크라는 가나의 수도이다.</span>";
+				
+				// 각 도시의 사진 보이기 
+				document.querySelector(`div#city${0}`).innerHTML = "<button onclick='func_NO_1()'>1번 문제 도시 사진을 보시려면 눌러주세요</button>";
+				document.querySelector(`div#city${1}`).innerHTML = "<button onclick='func_NO_2()'>2번 문제 도시 사진을 보시려면 눌러주세요</button>";
+				
+			}); // end of arr_quizData.forEach() ~~~~~~~~~~~~
+			
+			
+			// 정답 맞은 개수 출력하기 
+			document.querySelector("div#score").innerHTML = `<span style="font-weight: bold">총 정답개수 : ${correctCnt}</span>`;
+			
+			btn_next.disabled = false;   // "다음 페이지" 버튼 활성화 
+			
+			correctCntfinal = correctCnt; // correctCnt 를 {} 밖에서 쓰기 위해 새로 저장 함 
+			console.log(correctCntfinal);
+		};	// end of function check ~~~~~~~~~~~~~~~~~~
+		
+		// 다음 페이지 버튼
+		function next_button(){
+			
+			alert("결과창으로 넘어갑니다.");
+			location.href = `./Result.html?${correctCntfinal}`;  // 값을 다른HTML롤 옮길수 있다.(내보내기)			
+		}
+		
+		
+		// ~~~~ 팝업창 문제 사진들 부분 ~~~~ //
+
+		// 1번 문제 사진 
+		function func_NO_1() {
+			const popup_window = window.open("", "Manila", "left=50px, top=0px, width=510px, height=350px");
+			const popup_window2 = window.open("", "Berlin", "left=570px, top=0px, width=510px, height=350px");
+			const popup_window3 = window.open("", "Ankara", "left=50px, top=400px, width=510px, height=350px");
+			const popup_window4 = window.open("", "Prague", "left=570px, top=400px, width=510px, height=350px");
+			
+			
+			// 팝업창에 내가 쓰겠다. 이미지 띄어오기 부분, 팝업창 닫기 부분도 있다.  (빈 곳("")에 직접 넣어주는 것이다.)
+			popup_window.document.writeln("<html>");
+			popup_window.document.writeln("<head><title>마닐라 사진</title></head>");
+			popup_window.document.writeln("<body align='center'>");
+			
+			// 팝업창에 내가 쓰겠다. 이미지 띄어오기 부분, 팝업창 닫기 부분도 있다.  (빈 곳("")에 직접 넣어주는 것이다.)
+			popup_window2.document.writeln("<html>");
+			popup_window2.document.writeln("<head><title>베를린 사진</title></head>");
+			popup_window2.document.writeln("<body align='center'>");
+			
+			// 팝업창에 내가 쓰겠다. 이미지 띄어오기 부분, 팝업창 닫기 부분도 있다.  (빈 곳("")에 직접 넣어주는 것이다.)
+			popup_window3.document.writeln("<html>");
+			popup_window3.document.writeln("<head><title>앙카라 사진</title></head>");
+			popup_window3.document.writeln("<body align='center'>");
+			
+			// 팝업창에 내가 쓰겠다. 이미지 띄어오기 부분, 팝업창 닫기 부분도 있다.  (빈 곳("")에 직접 넣어주는 것이다.)
+			popup_window4.document.writeln("<html>");
+			popup_window4.document.writeln("<head><title>프라하 사진</title></head>");
+			popup_window4.document.writeln("<body align='center'>");
+			
+			
+			 //사진 출력 부분 
+			popup_window.document.writeln("<img src='./images/Manila.jpg' />");
+			popup_window2.document.writeln("<img src='./images/Berlin.jpg' />");
+			popup_window3.document.writeln("<img src='./images/Ankara.jpg' />");
+			popup_window4.document.writeln("<img src='./images/Prague.jpg' />");
+			
+			
+		};// end of function func_NO_1()
+	
+			
+		// 2번 문제 사진 
+		function func_NO_2() {
+			const popup_window = window.open("", "Bangkok", "left=50px, top=0px, width=510px, height=350px");
+			const popup_window2 = window.open("", "Wellington", "left=570px, top=0px, width=510px, height=350px");
+			const popup_window3 = window.open("", "Suva", "left=50px, top=400px, width=510px, height=350px");
+			const popup_window4 = window.open("", "Accra", "left=570px, top=400px, width=510px, height=350px");
+			
+			
+			// 팝업창에 내가 쓰겠다. 이미지 띄어오기 부분, 팝업창 닫기 부분도 있다.  (빈 곳("")에 직접 넣어주는 것이다.)
+			popup_window.document.writeln("<html>");
+			popup_window.document.writeln("<head><title>방콕 사진</title></head>");
+			popup_window.document.writeln("<body align='center'>");
+			
+			// 팝업창에 내가 쓰겠다. 이미지 띄어오기 부분, 팝업창 닫기 부분도 있다.  (빈 곳("")에 직접 넣어주는 것이다.)
+			popup_window2.document.writeln("<html>");
+			popup_window2.document.writeln("<head><title>웰링턴 사진</title></head>");
+			popup_window2.document.writeln("<body align='center'>");
+			
+			// 팝업창에 내가 쓰겠다. 이미지 띄어오기 부분, 팝업창 닫기 부분도 있다.  (빈 곳("")에 직접 넣어주는 것이다.)
+			popup_window3.document.writeln("<html>");
+			popup_window3.document.writeln("<head><title>수바 사진</title></head>");
+			popup_window3.document.writeln("<body align='center'>");
+			
+			// 팝업창에 내가 쓰겠다. 이미지 띄어오기 부분, 팝업창 닫기 부분도 있다.  (빈 곳("")에 직접 넣어주는 것이다.)
+			popup_window4.document.writeln("<html>");
+			popup_window4.document.writeln("<head><title>아크라 사진</title></head>");
+			popup_window4.document.writeln("<body align='center'>");
+			
+			
+			 //사진 출력 부분 
+			popup_window.document.writeln("<img src='./images/Bangkok.jpg' />");
+			popup_window2.document.writeln("<img src='./images/Wellington.jpg' />");
+			popup_window3.document.writeln("<img src='./images/Suva.jpg' />");
+			popup_window4.document.writeln("<img src='./images/Accra.jpeg' />");
+			
+			
+		};// end of function func_NO_2()
+	
+		
+	</script>
+	
+	
+</body>
+</html>

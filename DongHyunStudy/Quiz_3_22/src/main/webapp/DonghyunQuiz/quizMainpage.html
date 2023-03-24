@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>시작하기</title>
+
+<link rel="stylesheet" type="text/css" href="css/styleMain.css" />
+
+
+</head>
+<body>
+
+	<div>
+		<header>
+			
+			<h1>수도 맞추기 게임</h1>
+			<h3>어서오시게 수도 맞추기 게임은 처음이지?</h3>	
+		</header>
+		
+		<div id="middle">
+			<aside id="asideleft">
+				<p>다른게임을 원하십니까? (목록)</p>
+				<nav>
+					<ul>
+						<li><a href="./List_Page/Shooting_game.html">슈팅게임</a></li>   <!-- a는 링크를 걸때 함 -->
+						<li><a href="./List_Page/Adventure_game.html">어드벤처</a></li>   <!--  #은 자기 페이지 -->
+						<li><a href="./List_Page/Sports game.html">스포츠</a></li>
+						<li><a href="./List_Page/MMORPG.game.html">MMORPG</a></li>
+						<li><a href="./List_Page/Role-playing_game.html">롤플레잉</a></li>
+						<li><a href="./List_Page/Simulation_game.html">시뮬레이션</a></li>
+						<li><a href="./List_Page/Puzzle_game.html">퍼즐</a></li>
+					</ul>
+				</nav>
+			</aside>
+	
+			<section>
+				
+				<div id="map">
+					<img src="./images/map.jpg" Title="세계지도입니다." >
+				</div>	
+				
+			</section>
+			
+			<aside id="asideright">
+			
+				<div id="Advertising">
+					<a href="https://mdh2057.tistory.com/"><img src="./images/Advertising.png" Title="블로그 광고입니다. 클릭하세요" ></a>
+				</div>
+					
+			</aside>
+			
+			
+		</div>
+			
+			
+		<button type="button" id="btnstart">시작하기</button>
+		<input type="button" id="btnend" value="창닫기" onclick='endbutton()'/>	
+		
+		
+		<footer>
+		
+			<p>made by MDH / 2023.03.19</p>
+		
+		</footer>
+		
+	</div> 
+	
+	
+	<script type="text/javascript">
+		
+		// 시작하기 버튼 클릭시 이벤트 처리하기
+		const startbutton = function(){
+				
+				alert("시작하겠습니다. 하하");
+				location.href = "page1.html";
+				
+		};
+		
+		btnstart.addEventListener("click", startbutton);
+		
+		// 창닫기 버튼 클릭시 이벤트 처리하기
+		function endbutton(){
+				
+			
+			let cf = confirm("종료하시겠습니까?");
+			
+			if(cf == true) {
+				alert("아쉽군요 다시 돌아와주세요");
+				
+				
+				/*  창닫기 이벤트는 open 으로 열때 close 가 되므로 해결 할 수 없었다.*/
+				/* 그러므로 그냥 링크를 걸고 부모 페이지를 안보이게 하였다.  링크 건거랑 같은 것이다.*/ 
+				window.open('./end.html','_parent').parent.close();
+				
+				/*document.write("<span>창을 종료합니다.</span>")*/
+				
+			}
+			else {
+				alert("좋은 선택입니다.");
+				return 0;
+			}		
+		};
+		
+		btnstart.addEventListener("click", startbutton);
+	</script>
+	
+</body>
+</html>

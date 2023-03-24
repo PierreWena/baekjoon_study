@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>결과 창입니다.</title>
+
+<link rel="stylesheet" type="text/css" href="css/styleLast.css" />
+
+</head>
+<body>
+
+	<div id="container">
+	
+		<h1>결과창입니다. 결과를 확인하세요</h1>
+			
+		<table>			<!-- 테이블 태그 -->
+		
+			<thead>     <!-- 테이블의 머리 부분을 나타내는 것이다. -->
+				
+				<tr>			<!-- 테이블 레코드 -->
+				
+					<th>성적</th> 		<!-- 테이블 해더 (제목) 가운데 정렬에 글자 굵게 -->
+					<th>맞은개수</th>  
+				</tr>
+			</thead>
+			
+			<tbody>		<!-- 테이블의 데이터 부분 -->
+				<tr>
+					<td class="grade">A+</td>  <!-- 테이블 데이터 기본은 왼쪽정렬  여기는 가운데 정렬-->
+					<td class="correct">6개</td>
+				</tr>
+				
+				<tr>
+					<td class="grade">A0</td>  <!-- 테이블 데이터 -->
+					<td class="correct">5개</td>
+				</tr>
+				
+				<tr>
+					<td class="grade">B+</td>  <!-- 테이블 데이터 -->
+					<td class="correct">4개</td>
+				</tr>
+				
+				<tr>
+					<td class="grade">B0</td>  <!-- 테이블 데이터 -->
+					<td class="correct">3개</td>
+				</tr>
+				
+				<tr>
+					<td class="grade">C+</td>  <!-- 테이블 데이터 -->
+					<td class="correct">2개</td>
+				</tr>
+				
+				<tr>
+					<td class="grade">C0</td>  <!-- 테이블 데이터 -->
+					<td class="correct">1개</td>
+				</tr>
+				
+				<tr>
+					<td class="grade">F0</td>  <!-- 테이블 데이터 -->
+					<td class="correct">0개</td>
+				</tr>
+			
+			</tbody>
+		</table>
+		
+		<section>
+			<h3>문제를 풀어주셔서 감사합니다. 당신의 점수는 다음과 같습니다.</h3>
+			<input type="button" id="btnshow" value="성적표 열람" onclick='showbutton()'/>	
+			
+			<br>
+			
+			<div id ="flex">
+				<div id="testResult"></div>
+				<div id="score"></div>
+			</div>
+			
+			<div id="img"></div>
+			<p id="comment"></p>
+			<div id="Return"></div>
+			
+		</section>
+		
+		<footer>
+		
+			<p>made by MDH / 2023.03.19</p>
+		
+		</footer>
+
+	</div>
+
+
+<script type="text/javascript">
+
+
+	/* 성적표 열람 버튼 눌렀을때 */
+	function showbutton(){
+		
+		alert("자~ 지금부터 확인들어가겠습니다잉 따라란~ 따라란~ 따라란~ 따라란~ 따~ 쿵짝짝~ 쿵짝짝~ ");
+		btnshow.disabled = true;   // "성적표 열람" 버튼 비활성화 
+		
+		document.querySelector("div#testResult").innerHTML = "그대의 성적은 ==> ";
+		let correctCnt = location.href.split('?')[1];  // page3에서 값을 받아온다.
+		//console.log(correctCnt); // data
+		
+		// 정답 맞은 개수 출력하기 
+		document.querySelector("div#score").innerHTML = `<span style="font-weight: bold">총 정답개수 : ${correctCnt}</span>`;
+	
+		if(correctCnt == undefined)
+		{
+			document.querySelector("div#img").innerHTML = `<img src="./images/error.png" style= "margin: 0 40%;"/>`;
+			document.querySelector("p#comment").innerHTML = "에러가 발생했습니다. 처음부터 다시 시작하세요.";
+		}
+		else if(correctCnt == 6){
+			document.querySelector("div#img").innerHTML = `<img src="./images/A+.png" style= "margin: 0 44%;"/>`;
+			document.querySelector("p#comment").innerHTML = "참 잘했어요 A+ 입니다. 축하해요~~~";
+		}
+		else if(correctCnt == 5){
+			document.querySelector("div#img").innerHTML = `<img src="./images/A.jpeg" style= "margin: 0 42%;"/>`;
+			document.querySelector("p#comment").innerHTML = "A0 입니다 열심히 하셨군요 잘하셨네요~~";
+		}
+		else if(correctCnt == 4){
+			document.querySelector("div#img").innerHTML = `<img src="./images/B+.jpeg" style= "margin: 0 44%;"/>`;
+			document.querySelector("p#comment").innerHTML = "B+ 이군요 평타 이상입니다 힘내십쇼!!";
+		}
+		else if(correctCnt == 3){
+			document.querySelector("div#img").innerHTML = `<img src="./images/B.jpeg" style= "margin: 0 42%;"/>`;
+			document.querySelector("p#comment").innerHTML = "B 입니다 딱 평타 에서 평타 이하네요 노력합시다~";
+		}
+		else if(correctCnt == 2){
+			document.querySelector("div#img").innerHTML = `<img src="./images/C+.jpeg" style= "margin: 0 42%;"/>`;
+			document.querySelector("p#comment").innerHTML = "C+이라... 시험을 망치셨나요? 재시험 어떠신가요??";
+		}
+		else if(correctCnt == 1){
+			document.querySelector("div#img").innerHTML = `<img src="./images/C.jpeg" style= "margin: 0 44%;"/>`;
+			document.querySelector("p#comment").innerHTML = "C입니다 몽둥이 어딨어 상식이 있니??? 이리와";
+		}
+		else {
+			document.querySelector("div#img").innerHTML = `<img src="./images/F.jpeg" style= "margin: 0 41%;"/>`;
+			document.querySelector("p#comment").innerHTML = "F... 대한민국 수도도 모르니? 넌 포기다 ~~";
+		}
+		
+		document.querySelector("div#Return").innerHTML = "<button onclick='ReturnGO()'>메인 화면으로 돌아가기</button>";
+	}
+	
+	/* 메인 화면으로 돌아가기 */
+	function ReturnGO () {
+		alert("태초마을로 가자");
+		location.href = "./quizMainpage.html";	
+	}
+
+
+</script>
+
+
+</body>
+</html>

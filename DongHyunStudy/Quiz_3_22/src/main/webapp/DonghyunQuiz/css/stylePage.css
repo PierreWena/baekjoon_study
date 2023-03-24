@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+/* body 전체 부분 */
+body {
+	/*border: solid 1px red;*/
+	background-color: pink;
+}
+
+/* 제목 부분 */
+header > h2{
+	/*border: solid 1px white;*/ 
+	text-align: center;
+	padding-top: 1%;
+}
+
+/* timeMain 전체 */
+header > div#timeMain {
+	/*border: solid 1px purple;*/
+	display: flex;
+	padding-left: 80%;
+	height: 45px;
+}
+
+/* 남은시간 글자 */
+header > div#timeMain > p {
+	/*border: solid 1px blue;*/
+}
+
+/* 시간 부분 */
+div#timer {
+      /*border: solid 1px gray;*/
+      margin: 0 5px;
+      color: blue;
+      font-size: 20pt;
+      position: relative;									/* 상대적인 위치 */
+	  top: 7px;												/* 7px 아래로 */
+      
+}
+
+/* 퀴즈 전체 부분*/
+div#quiz_display {
+	  border: solid 1px gray;
+      display: flex;
+      font-size: 17pt;
+   }
+
+/* 1번문제 */
+div#div0 
+{
+	margin: 0 5% 0 5%;
+	width: 40%;
+	
+	
+} 
+
+/* 중간에 줄긋기 부분 */
+div#centerline0 {
+	border: 1px solid black;
+        width: 0.1px;
+}
+
+/* 2번 문제 부분 */
+div#div1 
+{
+	margin-left: 5%;
+} 
+
+/* 답 나오는 부분 줄간격 */
+span#ox {
+	line-height: 75px;
+}
+
+/* 답 확인하기 버튼 */
+section > input#btnfin {
+	margin-left: 29%;
+	height: 30px;
+	width: 15%;
+}
+
+section > input#btn_give_up {
+	margin-left: 12%;
+	height: 30px;
+	width: 15%;
+}
+
+/* 답 확인하기와 포기하기 버튼에 마우스 올라가 있을때 */
+section > input:hover {
+	background-color: red;
+	color: white;
+}
+/* 경고 span 부분 */
+body > span#warning {
+	margin: 0 31%;
+}
+/* 정답 개수를 알려주는 부분 */
+body > div#score {
+	padding-left: 48%;
+}
+
+/* 다음페이지로 가는 버튼 */
+body > input#btn_next {
+	margin-left: 70%;
+	width: 30%;
+}
+
+/* footer 부분 */
+footer {
+	text-align: right;
+	padding: 0 7% 0 0;
+}
+
+footer > p {
+	margin: 0 auto;
+}
