@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>객관식 퀴즈 만들기 과제</title>
+
+<style type="text/css">
+
+	#timer {
+      padding: 30px 0 0 20px;
+      color: #996666;
+      font-size: 20pt;
+      font-weight: bold;
+      text-align: center;
+    } 
+   
+	body {
+	  font-size: 18px;
+	}
+
+	.grid {
+	   padding: 10px 50px 30px;
+	   margin: 50px auto;
+	   width: 600px;
+	   background: #fff;
+	   border: 2px solid #4d4d33;
+	   border-radius: 20px;
+	   box-shadow: 5px 5px 5px #999966;
+	}
+	
+	.grid h1 {
+	   /* border: solid 1px gray; */
+	   margin: 50px auto;
+	   width: 300px;
+	   color: rosybrown;
+	   border-radius: 50px;
+	   font-weight: bold;
+	   font-size: 2.4em;
+	   text-align: center;
+	   
+	}
+	
+	#question {
+	   padding: 10px 2em;
+	   background: #998c66;
+	   border-radius: 15px;
+	   font-size: 24px;
+	   color: #fff;
+	}
+	
+	#quiz {
+	   text-align: center;
+	}
+	
+	#progress {
+	   font-size: 20px;
+	   color: #2b2b2b;
+	}
+	
+	.buttons {
+	   padding: 30px 20px;
+	   border: 2px solid #808000;
+	   border-radius: 20px;
+	}
+	
+	.btn {
+	   margin: 10px 40px 20px 0;
+	   padding: 10px;
+	   width: 250px;
+	   font-size: 16px;
+	   color: floralwhite;
+	   background: #d2c2a2;
+	   border: 1px solid #808000;
+	   border-radius: 15px;
+	   cursor: pointer;
+	   transition: all .2s;
+	}
+	
+	.btn:nth-child(2n) {
+	   margin-right: 0;
+	}
+	
+	.btn:hover {
+	   background: #e6ac00;
+	   color: #fff;
+	}
+	
+
+</style>
+
+<script type="text/javascript">
+
+	window.onload = function() {
+		
+		
+		///////////////////////////////////==== 타이머 만들기 ====/////////////////////////////////
+		const timerDiv = document.querySelector('div#timer'); // 타이머를 보여줄 장소를 태그로 만들기
+		const btnSubmit = document.querySelector('button#btnSubmit'); // 제출하기 버튼
+		
+		let time = 300; // 타이머 시간제한 300초
+		
+		// 타이머 함수
+		const timer = function() {
+			
+			if(time < 0) {
+				alert('[퀴즈종료] 시험지는 자동으로 제출되었습니다.');
+				clearInterval(setTimer);
+				// clearInterval 은 함수의 반환값을 변수에 할당 후 clearInterval(변수)를 호출하여 함수의 반복을 중단.
+				// setInterval()을 이용하면 함수를 재시작 가능하다
+				result(); // 채점결과 함수 호출
+			}
+			else {
+				let minute;
+				let second;
+				
+				minute = Math.floor(time/60); // 소수부는 없애고 정수부만 가져오는 것. 즉, Math.floor 는 어떤 수 보다 작은 최대의 정수
+				if(minute < 10) {
+					minute = "0"+minute;
+				}
+				
+				second = time % 60;
+				if(second < 10) {
+					second = "0"+second;
+				}
+				
+				timerDiv.innerHTML = `${minute}:${second}`; // 타이머의 값을 해당 태그의 위치에 찍어냄
+
+				time--; // 타이머의 시간이 줄어도록
+				
+			}
+		}; // end of const timer = function()-----------------------------------------
+		
+	timer(); // 완성한 타이머 함수 호출
+		
+	const setTimer = setInterval(timer, 1000); // 1초 마다 타이머 함수 호출 // setInterval()을 이용하면 함수를 재시작 가능하다
+		
+
+	///////////////////////////////////==== 퀴즈 문항 만들기 ====/////////////////////////////////
+	
+
+	// 문제 객체(생성자 함수)
+	function Question(text, choice, answer) {
+	  this.text = text; // 질문 텍스트
+	  this.choice = choice; // 선택할 답들(배열)
+	  this.answer = answer; // 정답 정보
+	}
+
+	// 퀴즈 정보 객체
+	function Quiz(questions) {
+	  this.score = 0; // 점수
+	  this.questions = questions; // 문제
+	  this.questionIndex = 0; // 문제 번호
+	}
+
+	// 정답 확인 메서드
+	Quiz.prototype.correctAnswer = function(answer) {
+	  return answer == this.questions[this.questionIndex].answer;
+	}
+
+	// 퀴즈 문항 및 정답 포함 된 배열 생성
+	var questions = [
+	  new Question('윤환이가 여가시간에 주로 하는 것은?', ['밀린 잠 자기', '애니메이션 보기', '카페 가서 티타임 갖기', '아이쇼핑 하기', '친구 만나기'], '애니메이션 보기'),
+	  new Question('윤환이가 가장 좋아하는 음악 장르는?', ['재즈', '알앤비', '발라드', '클래식', '락'], '알앤비'),
+	  new Question('윤환이가 싫어하는 음식(식재료)은?', ['양고기', '해산물', '마라탕', '두룹', '가지'], '가지'),
+	  new Question('윤환이의 MBTI 는?', ['ESFP', 'INTP', 'ESTJ', 'ISTP', 'ISTJ'], 'ISTP'),
+	  new Question('윤환이가 원래 준비하던 직종은?', ['객실 승무원', '유통관리사', '회계사', '마케터', '작곡'], '객실 승무원')
+	];
+
+	// 퀴즈 객체 생성
+	var quiz = new Quiz(questions);
+
+	// 문제 출력 함수
+	function updateQuiz() {
+	  var question = document.getElementById('question');
+	  var idx = quiz.questionIndex + 1; // 인덱스는 0부터 시작이기 때문에 1 을 더해서 문제 번호를 화면에 표시
+	  var choice = document.querySelectorAll('.btn');
+
+	  // 문제 출력
+	  question.innerHTML = '문제 ' + idx + ')  ' + quiz.questions[quiz.questionIndex].text; // 배열 속 퀴즈문제 텍스트 출력
+
+	  // 선택 출력
+	  for (var i = 0; i < 5; i++) {
+	    choice[i].innerHTML = quiz.questions[quiz.questionIndex].choice[i];
+	  }
+
+	  progress();
+	}
+
+	// 퀴즈 진행상황 함수 (맨 아래 만들 것)
+	function progress() {
+	  var progress = document.getElementById('progress');
+	  progress.innerHTML = '문제 ' + (quiz.questionIndex + 1) + '/ ' + quiz.questions.length;
+	}
+
+	var btn = document.querySelectorAll('.btn');
+
+	// 입력 및 정답 확인 함수
+	function checkAnswer(i) {
+	  btn[i].addEventListener('click', function() { // 클릭을 했을 때의 이벤트
+	    var answer = btn[i].innerText;
+
+	    if (quiz.correctAnswer(answer)) {
+	      alert('정답입니다!');
+	      quiz.score++;
+	    } else {
+	      alert('틀렸습니다!');
+	    }
+
+	    if (quiz.questionIndex < quiz.questions.length - 1) {
+	      quiz.questionIndex++;
+	      updateQuiz();
+	    } else {
+	      result();
+	    }
+	  });
+	}
+
+	// 점수 출력 및 맞은 개수 함수
+	function result() {
+		
+	  alert('결과를 확인하세요.');
+	  clearInterval(setTimer); // 타이머 삭제하기
+	  // setTimer 는 중단해야할 setInterval 함수를 가리키는 것이다.
+	  timerDiv.innerHTML = "00:00";
+	  
+	  var quizDiv = document.getElementById('quiz');
+	  var per = parseInt((quiz.score * 100) / quiz.questions.length);
+	  var txt = '<h1 id="result">결과</h1>' + '<h2 id="score">정답 갯수: ' + quiz.score + '/' + quiz.questions.length + '<br><br>' + per + '점' + '</h2>' + '<br><br>' + '<h3>정답 : 애니메이션 보기, 알앤비, 가지, ISTP, 객실 승무원</h3>';
+	
+	  quizDiv.innerHTML = txt;
+
+	  // 점수별 결과 출력
+	  if (per < 60) {
+	    txt += '<h2>우리 좀 더 알아가요^^...</h2>';
+	    quizDiv.innerHTML = txt;
+	  } else if (per >= 60 && per < 80) {
+	    txt += '<h2>저에 대해 조금은 아시는군요?</h2>'
+	    quizDiv.innerHTML = txt;
+	  } else if (per >= 80) {
+	    txt += '<h2>좋은 친구가 될 수 있을 거 같아요!</h2>'
+	    quizDiv.innerHTML = txt;
+	  } else if (per >= 100) {
+		txt += '<h2>우린 베스트 프렌드!</h2>'
+		quizDiv.innerHTML = txt;  
+	  }
+	}
+
+	for (var i = 0; i < btn.length; i++) {
+	  checkAnswer(i);
+	}
+
+	updateQuiz(); // 퀴즈 실행
+
+	
+	} // end of window.onload = function()--------------------------------
+
+	// 개발자 모드 f12 막기
+/* 	function keydowncheck() {
+		let result = true;
+		if(event.keyCode == 123) {
+			// f12 의 키코드는 123 enter는 13
+			alert("F12 는 사용이 불가능 합니다.");
+			result = false;
+		}
+		return result;
+	}; // end of function keydowncheck()------------------------- */
+	
+	
+
+</script>
+
+</head>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false" onkeydown="return keydowncheck();">
+<!-- 소스보기 금지 시키기
+	oncontextmenu="return false" -> 마우스 우클릭 금지
+	ondragstart="return false"   -> 드래그 금지
+	onselectstart="return false" -> 선택복사 금지
+ -->
+	<div id="timer"></div>
+	<div class="grid">
+    <h1>- About 윤환 -</h1>
+    <div id="quiz">
+      <p id="question"></p>
+
+      <div class="buttons">
+         <button class="btn"></button>
+         <button class="btn"></button>
+         <button class="btn"></button>
+         <button class="btn"></button>
+         <button class="btn"></button>
+      </div>
+
+      <footer>
+         <p id="progress">진행상황</p>
+      </footer>
+   </div>
+</div>
+	
+
+</body>
+</html>
