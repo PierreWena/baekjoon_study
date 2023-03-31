@@ -1,6 +1,6 @@
 package myalgorithm;
 
-// 해답 출처: https://marrrang.tistory.com/59
+// 
 
 //문제출처 :  https://school.programmers.co.kr/learn/courses/30/lessons/17680
 
@@ -13,60 +13,7 @@ public class Main_1chaCash {
 		
 		
 		
-//		public int solution(int cacheSize, String[] cities) {
-//			
-//			if(cacheSize == 0) {
-//				
-//				return cities.length * 5;
-//			}
-//			
-//			
-//			int answer = 0;
-//			
-//			List<String>ctList = new ArrayList<>();
-//			
-//			for(String city: cities) {
-//				
-//				city = city.toLowerCase();
-//				
-//				if(ctList.contains(city)) { // 캐시에 포함된 도시일경우
-//					
-//					ctList.remove(0);  // 처음 꺼를 삭제하고
-//					ctList.add(city);  // 마지막에 넣어준다. 참조했으니까
-//					
-//					
-//					answer += 1; // 점수증가
-//				}
-//				
-//				
-//				else {
-//					
-//					if(ctList.size() == cacheSize ) {
-//						
-//						ctList.remove(0);
-//						
-//					}
-//					
-//					ctList.add(city);
-//					
-//					answer += 5;
-//					
-//				}
-//				
-//				
-//				
-//				
-//			}
-//			
-//			
-//			
-//			
-//			
-//			
-//			
-//			return answer;
-//			
-//		}
+
 	
 	
 	
@@ -80,7 +27,7 @@ public class Main_1chaCash {
 		}
 		
 		
-		int answer = 0;
+		int result = 0;
 		
 		List<String>ctList = new ArrayList<>();
 		
@@ -93,7 +40,7 @@ public class Main_1chaCash {
 				ctList.remove(city);
 				ctList.add(city);
 				
-				answer += 1;
+				result += 1;
 			}
 			
 			
@@ -107,7 +54,7 @@ public class Main_1chaCash {
 				
 				ctList.add(city);
 				
-				answer +=5;
+				result +=5;
 			}
 			
 			
@@ -116,7 +63,7 @@ public class Main_1chaCash {
 		
 		
 			
-			return answer;
+			return result;
 		
 	}
 		
