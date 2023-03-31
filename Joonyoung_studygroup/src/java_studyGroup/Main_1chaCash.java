@@ -33,7 +33,7 @@ public class Main_1chaCash {
 		
 		for(String city: cities) {
 			
-			city = city.toLowerCase();
+			city = city.toUpperCase();
 			
 			if(ctList.contains(city)) {
 				
