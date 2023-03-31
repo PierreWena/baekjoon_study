@@ -18,7 +18,7 @@ public class Main_1chaCash {
 	
 	
 	
-	public int solution(int cacheSize, String[] cities) {
+	public static int solution(int cacheSize, String[] cities) {
 		
 		if(cacheSize==0) {
 			
@@ -78,7 +78,7 @@ public class Main_1chaCash {
 			Scanner sc = new Scanner(System.in);
 			
 			
-			Main_1chaCash cash = new Main_1chaCash();
+			
 			
 			int a = sc.nextInt();
 			
@@ -96,7 +96,7 @@ public class Main_1chaCash {
 			}
 			
 			
-			int time = cash.solution(a, cities);
+			int time = solution(a, cities);
 			
 			
 			
